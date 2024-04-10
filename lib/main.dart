@@ -16,15 +16,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(titleConfig: 'Flutter Demo Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.titleConfig});
 
-  final String title;
+  final String titleConfig;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -32,22 +32,41 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  // postList를 set으로 선언하지 말고, array로 지정하기
+  final postList = [
+    {
+      "title": "Sample Title 1",
+      "color": Colors.green,
+    },
+    {
+      "title": "Sample Title 2",
+      "color": Colors.grey,
+    },
+    {
+      "title": "Sample Title 3",
+      "color": Colors.deepOrange,
+    },
+    {
+      "title": "Sample Title 4",
+      "color": Colors.deepOrange,
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(widget.titleConfig),
       ),
-      body: ListView(
-        children: [
-          postContainer(title: "Title 1", colorData: Colors.yellow),
-          postContainer(title: "Title 2", colorData: Colors.purple),
-          postContainer(title: "Title 3", colorData: Colors.redAccent),
-          postContainer(title: "Title 4"),
-          postContainer(title: "Title 5"),
-
-        ],
+      body: ListView.builder(
+          itemCount: postList.length,
+          itemBuilder: (BuildContext con, int index) {
+            return postContainer(
+              title: postList[index]["title"] as String,
+              colorData: postList[index]["color"] as Color,
+            );
+          },
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
